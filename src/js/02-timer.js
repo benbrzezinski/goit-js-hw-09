@@ -7,7 +7,7 @@ const daysOutput = document.querySelector('span[data-days]');
 const hoursOutput = document.querySelector('span[data-hours]');
 const minutesOutput = document.querySelector('span[data-minutes]');
 const secondsOutput = document.querySelector('span[data-seconds]');
-let intervalId;
+let intervalID;
 
 startBtn.setAttribute('disabled', '');
 
@@ -41,7 +41,7 @@ const dateTimePicker = flatpickr('input#datetime-picker', {
       secondsOutput.innerText = addLeadingZero(seconds);
 
       if (remainingTime < 1000) {
-        clearInterval(intervalId);
+        clearInterval(intervalID);
         startBtn.removeEventListener('click', startBtnOnClick);
       }
     };
@@ -49,7 +49,7 @@ const dateTimePicker = flatpickr('input#datetime-picker', {
     const startBtnOnClick = e => {
       e.currentTarget.setAttribute('disabled', '');
       timeCounter();
-      intervalId = setInterval(timeCounter, 1000);
+      intervalID = setInterval(timeCounter, 1000);
     };
 
     startBtn.addEventListener('click', startBtnOnClick);
