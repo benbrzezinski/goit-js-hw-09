@@ -1,9 +1,8 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const form = document.querySelector('.form');
-let intervalID;
 
-const handleSubmit = e => {
+const displayPromiseState = e => {
   e.preventDefault();
 
   const {
@@ -30,7 +29,7 @@ const handleSubmit = e => {
         Notify.success(`Fulfilled promise ${position} in ${delay}ms`, {
           position: 'center-top',
           distance: '20px',
-          timeout: 4000,
+          timeout: 3500,
           pauseOnHover: false,
         });
       })
@@ -38,14 +37,13 @@ const handleSubmit = e => {
         Notify.failure(`Rejected promise ${position} in ${delay}ms`, {
           position: 'center-top',
           distance: '20px',
-          timeout: 4000,
+          timeout: 3500,
           pauseOnHover: false,
         });
       });
 
-    intervalID = setInterval(() => {
+    setInterval(() => {
       if (promiseCounter === amountValue) {
-        clearInterval(intervalID);
         return;
       }
 
@@ -61,7 +59,7 @@ const handleSubmit = e => {
           Notify.success(`Fulfilled promise ${position} in ${delay}ms`, {
             position: 'center-top',
             distance: '20px',
-            timeout: 4000,
+            timeout: 3500,
             pauseOnHover: false,
           });
         })
@@ -69,7 +67,7 @@ const handleSubmit = e => {
           Notify.failure(`Rejected promise ${position} in ${delay}ms`, {
             position: 'center-top',
             distance: '20px',
-            timeout: 4000,
+            timeout: 3500,
             pauseOnHover: false,
           });
         });
@@ -77,7 +75,7 @@ const handleSubmit = e => {
   }, delayValue);
 };
 
-form.addEventListener('submit', handleSubmit);
+form.addEventListener('submit', displayPromiseState);
 
 function createPromise(position, delay) {
   return new Promise((resolve, reject) => {

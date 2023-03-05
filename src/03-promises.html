@@ -11,6 +11,7 @@
         align-items: end;
         flex-wrap: wrap;
         gap: 10px;
+        margin-left: 30px;
       }
 
       label {
@@ -20,13 +21,20 @@
 
       input {
         font-size: 16px;
+        border: 2px solid rgba(0, 0, 0, 0.3);
+        border-radius: 4px;
+        transition: border-color 250ms ease-in-out;
+      }
+
+      input:hover,
+      input:focus {
+        border-color: rgba(0, 0, 0, 0.5);
       }
 
       button {
         font-size: 16px;
         color: black;
-        background-color: #fffadc;
-        border: 2px solid rgba(0, 0, 0, 0.2);
+        border: 2px solid rgba(0, 0, 0, 0.3);
         border-radius: 4px;
         transition: background-color 250ms ease-in-out,
           border-color 250ms ease-in-out;
@@ -36,8 +44,8 @@
       button:hover,
       button:focus-visible {
         cursor: pointer;
-        background-color: #eae0c2;
-        border-color: rgba(0, 0, 0, 0.4);
+        background-color: rgba(0, 0, 0, 0.1);
+        border-color: rgba(0, 0, 0, 0.5);
       }
 
       button:active {

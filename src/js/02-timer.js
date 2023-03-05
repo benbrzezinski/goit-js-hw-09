@@ -22,7 +22,7 @@ const dateTimePicker = flatpickr('input#datetime-picker', {
     if (selectedDates[0] <= new Date()) {
       Notify.failure('Please choose a date in the future', {
         position: 'center-top',
-        distance: '25px',
+        distance: '20px',
         pauseOnHover: false,
       });
       startBtn.setAttribute('disabled', '');
@@ -35,24 +35,25 @@ const dateTimePicker = flatpickr('input#datetime-picker', {
       const remainingTime = selectedTime - currentTime;
       const { days, hours, minutes, seconds } = convertMs(remainingTime);
 
+      if (remainingTime < 0) {
+        clearInterval(intervalID);
+        startBtn.removeEventListener('click', startTimeCounter);
+        return;
+      }
+
       daysOutput.innerText = addLeadingZero(days);
       hoursOutput.innerText = addLeadingZero(hours);
       minutesOutput.innerText = addLeadingZero(minutes);
       secondsOutput.innerText = addLeadingZero(seconds);
-
-      if (remainingTime < 1000) {
-        clearInterval(intervalID);
-        startBtn.removeEventListener('click', startBtnOnClick);
-      }
     };
 
-    const startBtnOnClick = e => {
+    const startTimeCounter = e => {
       e.currentTarget.setAttribute('disabled', '');
       timeCounter();
       intervalID = setInterval(timeCounter, 1000);
     };
 
-    startBtn.addEventListener('click', startBtnOnClick);
+    startBtn.addEventListener('click', startTimeCounter);
   },
 });
 
