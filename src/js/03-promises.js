@@ -15,18 +15,32 @@ const handleSubmit = e => {
   const amountValue = Number(amount.value);
   let promiseCounter = 1;
 
-  setTimeout(() => {
-    if (amountValue <= 0) {
-      Notify.failure('Amount must be greater than 0');
-      return;
-    }
+  if (amountValue <= 0) {
+    Notify.failure('Amount must be greater than 0', {
+      position: 'center-top',
+      distance: '20px',
+      pauseOnHover: false,
+    });
+    return;
+  }
 
+  setTimeout(() => {
     createPromise(promiseCounter, delayValue)
       .then(({ position, delay }) => {
-        Notify.success(`Fulfilled promise ${position} in ${delay}ms`);
+        Notify.success(`Fulfilled promise ${position} in ${delay}ms`, {
+          position: 'center-top',
+          distance: '20px',
+          timeout: 4000,
+          pauseOnHover: false,
+        });
       })
       .catch(({ position, delay }) => {
-        Notify.failure(`Rejected promise ${position} in ${delay}ms`);
+        Notify.failure(`Rejected promise ${position} in ${delay}ms`, {
+          position: 'center-top',
+          distance: '20px',
+          timeout: 4000,
+          pauseOnHover: false,
+        });
       });
 
     intervalID = setInterval(() => {
@@ -35,14 +49,29 @@ const handleSubmit = e => {
         return;
       }
 
+      const totalPassedTime =
+        promiseCounter === 1
+          ? delayValue + stepValue
+          : delayValue + stepValue + stepValue * (promiseCounter - 1);
+
       promiseCounter++;
 
-      createPromise(promiseCounter, stepValue)
+      createPromise(promiseCounter, totalPassedTime)
         .then(({ position, delay }) => {
-          Notify.success(`Fulfilled promise ${position} in ${delay}ms`);
+          Notify.success(`Fulfilled promise ${position} in ${delay}ms`, {
+            position: 'center-top',
+            distance: '20px',
+            timeout: 4000,
+            pauseOnHover: false,
+          });
         })
         .catch(({ position, delay }) => {
-          Notify.failure(`Rejected promise ${position} in ${delay}ms`);
+          Notify.failure(`Rejected promise ${position} in ${delay}ms`, {
+            position: 'center-top',
+            distance: '20px',
+            timeout: 4000,
+            pauseOnHover: false,
+          });
         });
     }, stepValue);
   }, delayValue);
