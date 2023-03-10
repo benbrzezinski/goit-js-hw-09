@@ -1,6 +1,12 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const form = document.querySelector('.form');
+const notifyOptions = {
+  position: 'center-top',
+  distance: '20px',
+  timeout: 3500,
+  pauseOnHover: false,
+};
 
 const displayPromiseState = e => {
   e.preventDefault();
@@ -9,16 +15,15 @@ const displayPromiseState = e => {
     elements: { delay, step, amount },
   } = e.currentTarget;
 
-  const delayValue = Number(delay.value);
   const stepValue = Number(step.value);
   const amountValue = Number(amount.value);
+  let delayValue = Number(delay.value);
   let promiseCounter = 1;
 
   if (amountValue <= 0) {
     Notify.failure('Amount must be greater than 0', {
-      position: 'center-top',
-      distance: '20px',
-      pauseOnHover: false,
+      ...notifyOptions,
+      timeout: 3000,
     });
     return;
   }
@@ -26,20 +31,16 @@ const displayPromiseState = e => {
   setTimeout(() => {
     createPromise(promiseCounter, delayValue)
       .then(({ position, delay }) => {
-        Notify.success(`Fulfilled promise ${position} in ${delay}ms`, {
-          position: 'center-top',
-          distance: '20px',
-          timeout: 3500,
-          pauseOnHover: false,
-        });
+        Notify.success(
+          `Fulfilled promise ${position} in ${delay}ms`,
+          notifyOptions
+        );
       })
       .catch(({ position, delay }) => {
-        Notify.failure(`Rejected promise ${position} in ${delay}ms`, {
-          position: 'center-top',
-          distance: '20px',
-          timeout: 3500,
-          pauseOnHover: false,
-        });
+        Notify.failure(
+          `Rejected promise ${position} in ${delay}ms`,
+          notifyOptions
+        );
       });
 
     setInterval(() => {
@@ -47,29 +48,22 @@ const displayPromiseState = e => {
         return;
       }
 
-      const totalPassedTime =
-        promiseCounter === 1
-          ? delayValue + stepValue
-          : delayValue + stepValue + stepValue * (promiseCounter - 1);
+      const totalPassedTime = (delayValue += stepValue);
 
       promiseCounter++;
 
       createPromise(promiseCounter, totalPassedTime)
         .then(({ position, delay }) => {
-          Notify.success(`Fulfilled promise ${position} in ${delay}ms`, {
-            position: 'center-top',
-            distance: '20px',
-            timeout: 3500,
-            pauseOnHover: false,
-          });
+          Notify.success(
+            `Fulfilled promise ${position} in ${delay}ms`,
+            notifyOptions
+          );
         })
         .catch(({ position, delay }) => {
-          Notify.failure(`Rejected promise ${position} in ${delay}ms`, {
-            position: 'center-top',
-            distance: '20px',
-            timeout: 3500,
-            pauseOnHover: false,
-          });
+          Notify.failure(
+            `Rejected promise ${position} in ${delay}ms`,
+            notifyOptions
+          );
         });
     }, stepValue);
   }, delayValue);
